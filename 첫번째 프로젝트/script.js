@@ -24,50 +24,42 @@ function deleteBtn(event) {
   const btn = event.target;
   const btndiv = btn.parentNode;
   const containerli = btndiv.parentNode;
-  //그러면 이 태그의 로컬스토리지 내용에서 id를 가져와서
-  //div에 저장되어 있는 데이터를 가져옴. ㅓ떻게?
-  //이게 핵심이네. 어떻게 로컬 스토리지를 삭제할 것인지.
+  //event가 실행된 div의 parentNode를 구한다.
+  //containerli는 li태그이다.
   let temp = [];
+  //삭제되지 않은 객체들만 모아둘 리스트를 따로 만든다.
   liNum = parseInt(containerli.id);
+  //리스트 뿐만 아니라 history와 localstorage에도 결과를 반영해야하기 때문에
+  //containerli태그의 id를 가져온다.
   historyLi.removeChild(containerli);
-  //console.log(containerli);
-  //console.log("리스트 id가 왜 없는 번호가 나오냐고 " + liNum);
+
   const bringAmount = Number(history[liNum].amount);
-  //containerli 리스트를 만들어 리스트아이디도 바꿔줘야되네ㅔ..
+  //가져온 liNum으로 history에 저장된 가격을 가져온다.
   listArr.splice(liNum, 1);
+  //liNum번째의 li태그를 지운다.
   if (btndiv.className === "incomeDiv") {
     //income 기록 수정
-    // let presentIncome = parseInt(only_income.textContent);
     incomeTotal -= bringAmount;
     only_income.innerText = `${incomeTotal}`;
   } else {
-    //let presentExpense = parseInt(only_expense.textContent);
     expenseTotal -= bringAmount;
     only_expense.innerText = `${expenseTotal}`;
-  }
-  console.log(
-    "지출:",
-    only_expense.textContent,
-    " 수입:",
-    only_income.textContent
-  );
+  } //각 지출과 수입 결과도 수정해준다.
+
   total -= bringAmount;
   balance.innerText = `${total}₩`;
-
+  // 전체 합계도 수정해준다.
   for (let i = 0; i < history.length; i++) {
     if (parseInt(containerli.id) !== history[i].id) {
       temp.push(history[i]);
-      //  console.log(containerli.id, history[i].id);
     }
-  }
-  //console.log(temp);
-
-  //income과 expense 도 바꿔줘야함.
+  } //filter함수를 풀어서 써봤다..삭제 버튼이 눌린 태그 id와 비교해서
+  //같지 않은 element들만 temp에 다시 저장.
   history = temp;
 
-  //번호 다시 부여하기.
   saveHistory();
   resetNum();
+  //중간에 하나가 빠져서 숫자 정렬을 다시 해준다.
 }
 function resetNum() {
   const loadedHistory = localStorage.getItem(HISTORY);
@@ -89,9 +81,12 @@ function paintHistory(historyObj) {
   const li = document.createElement("li");
   const cancelBtn = document.createElement("div");
   cancelBtn.className = "btn";
+  //맨 왼쪽에 있는 버튼
   const containerDiv = document.createElement("div");
+  //li태그 바로 안에 있는 div태그
   const textSpan = document.createElement("div");
   const amountSpan = document.createElement("div");
+  //containerDiv 안에 들어 있는 text와 amount div태그
   textSpan.innerHTML = historyObj.text;
   amountSpan.innerHTML = parseInt(historyObj.amount);
   cancelBtn.innerText = "X";
@@ -100,7 +95,11 @@ function paintHistory(historyObj) {
   containerDiv.appendChild(amountSpan);
   li.appendChild(containerDiv);
   li.id = historyObj.id;
+  //중요한건 li의 아이디와 historyobj의 아이드를 같게 저장해야한다는것
   listArr.push(li);
+  //또한 listArr를 생성해서 리스트태그 그 자체도 가리키게 해야한다.
+  //왜냐면 삭제를 하고 나서 나머지 li태그의 id를 다시 순서대로 (0,1,2..)설정해줘야 하기 때문
+  //그래야 localStorage와도 통일이 되고 resetNum함수의 의미가 있다.
   historyLi.appendChild(li);
   if (historyObj.amount > 0) {
     incomeTotal += parseInt(historyObj.amount);
@@ -111,14 +110,16 @@ function paintHistory(historyObj) {
     only_expense.innerText = expenseTotal;
     containerDiv.className = "expenseDiv";
   }
-  cancelBtn.addEventListener("click", deleteBtn); //localStorage 삭제. 리스트에도 element 삭제
-  //btn가 포함되어 있는 리스트의 id를 구해야 하나..>?
+  cancelBtn.addEventListener("click", deleteBtn);
+  //맨 왼쪽 버튼을 누르면 deleteBtn이 실행된다.
   total += parseInt(historyObj.amount);
-
+  //수입+지출
   balance.innerText = `${total}₩`;
   history.push(historyObj);
+  //전체 기록 객체를 모아두는 배열에 추가하고
 
   saveHistory();
+  //localStorage에도 저장
 }
 
 function handleSubmit(event) {
@@ -133,8 +134,7 @@ function handleSubmit(event) {
   paintHistory(historyObj);
   doText.value = "";
   doAmount.value = "";
-  //어떻게 하나의 리스트로 묶지.
-}
+} //현재 input에 입력된 두가지 값들을 가져와서 객체를 생성하고 li태그로 출력한다.
 function loadhistory() {
   const loadedHistory = localStorage.getItem(HISTORY);
   if (loadedHistory !== null) {
@@ -148,12 +148,10 @@ function loadhistory() {
       paintHistory(historyObj);
     });
   }
-}
+} //새로고침 했을때 원래 로컬스토리지에 저장된 데이터들을 가져오는 함수
 function init() {
   loadhistory();
   toDoForm.addEventListener("submit", handleSubmit);
-  //하나의 리스트로 데이터를 묶어서 추가한다.
-  //일단 내용과 현금양을 하나의 리스트로 묶어야 함.
+  //form 전체에다가 이벤트리스너를 달아놓음.
 }
 init();
-//번호 부여를 어떻게 해야할까. 번호부여....
