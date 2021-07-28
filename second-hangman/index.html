@@ -7,13 +7,15 @@
 
     <link rel="stylesheet" href="reset.css" />
     <link rel="stylesheet" href="style.css" />
-    <title>Document</title>
+    <title>Hangman</title>
   </head>
   <body>
     <div class="total_container">
       <div class="header_container">
         <header>Hangman</header>
-        <header>Find the hidden word - Enter a letter</header>
+        <header>
+          <span>Find the hidden word - Enter a letter</span>
+        </header>
       </div>
       <div id="container">
         <div id="picture">
@@ -35,10 +37,17 @@
             <line x1="140" y1="150" x2="160" y2="180" class="figure-part" />
           </svg>
         </div>
-        <div class="notice_wrong"></div>
+        <div class="notice_wrong">
+          <div class="wrong_title"></div>
+          <div class="wrong_lettersss"></div>
+        </div>
       </div>
       <div class="answer_container"></div>
     </div>
+    <div class="popup_notice_container">
+      <div class="popup_notice"></div>
+    </div>
+    <div class="advice"><span>you have already entered this letter.</span></div>
     <script src="script.js"></script>
   </body>
 </html>
