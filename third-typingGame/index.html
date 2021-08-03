@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css"
+      integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ="
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>Typing Game</title>
+  </head>
+  <body>
+    <header>
+      <h3>Difficulty</h3>
+      <select name="difficulty" id="difficulty">
+        <option value="easy">Easy</option>
+        <option value="medium">Medium</option>
+        <option value="difficult">Difficult</option>
+        <!--addeventlistener change임. -->
+      </select>
+    </header>
+    <!--나타났다 사라졌다 해야함. -->
+    <section>
+      <div class="typing_pop">
+        <div class="typing_title"><h2>Speed Typer</h2></div>
+        <div class="secondNscore_container">
+          <div class="seconds">
+            <span>Time left:</span>
+            <span class="second_result"></span>
+          </div>
+          <div class="scores">
+            <span>Score:</span>
+            <span class="score_result"></span>
+          </div>
+        </div>
+        <div class="word_container">
+          <span>Type the following:</span>
+          <div class="word"></div>
+        </div>
+        <form>
+          <input
+            type="text"
+            autofocus
+            autocomplete="off"
+            placeholder="Type the word here..."
+          />
+        </form>
+      </div>
+      <!--단어 타이핑하는 곳-->
+      <!-- <div class="notice_pop">
+        <h1>Time ran out</h1>
+        <h2>Your final score is <span class="final"></span></h2>
+        <button class="reloadBut">reload</button>
+      </div> -->
+      <!--시간 내에 입력 못했을시 나타나는 공지창-->
+    </section>
+    <footer>
+      <button class="optionButton"><i class="fas fa-cog fa-2x"></i></button>
+    </footer>
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -8,6 +8,7 @@ body {
   align-items: center;
   font-family: "Roboto", sans-serif;
   height: 100%;
+  overflow: hidden;
   background-color: rgb(110, 139, 219);
 }
 .total_container {

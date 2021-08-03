@@ -13,7 +13,7 @@ function bringValue(e) {
     fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${bring}`)
       .then((link) => link.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         if (data === null) {
           notice.innerHTML = `There are no search result. Try again`;
         } else {
